@@ -39,8 +39,12 @@ class Mago{
         }
     }
 
+    method categoria(){
+        return categoria
+    }
+
     method puedeVencerlo(unMago){
-        return categoria.esVencido(unMago, self)            // El primer mago enviado por parámetro es aquel "dueño" de la categoria
+        return unMago.categoria().esVencido(unMago, self)            // El primer mago enviado por parámetro es aquel "dueño" de la categoria
     }
 
     method puntosPerdidos(){
@@ -59,11 +63,15 @@ class Mago{
         puntosDeEnergiaMagica -= puntos
     }
 
+    method resistenciaDelLider(){       // El valor de esta resistencia lo tiene en cuenta para el gremio (no en uso individual)
+        return 0
+    }
+
     // Suponemos que un mago es responsable de crear un gremio
 
     method crearGremio(algunosMiembros){
         if(self.suficienteParaCrearUnGremio(algunosMiembros)){
-           const gremio = new Gremio(miembros = algunosMiembros, puntosDeEnergiaMagica = 0)         
+           const gremio = new Gremio(miembros = algunosMiembros)         
         }else{
             throw new NoSePuedeCrearUnGremioException(message = "No hay suficientes miembros para crear un gremio")
         }

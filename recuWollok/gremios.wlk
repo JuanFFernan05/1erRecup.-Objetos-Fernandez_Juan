@@ -2,16 +2,14 @@ import magos.*
 
 class Gremio{
     var miembros = #{}                  // Gremios y/o magos
-    var puntosDeEnergiaMagica
+    
 
     method poderTotal(){
         return miembros.sum({miembro => miembro.poderTotal()})
     }
 
     method reservaDeEnergiaMagica(){
-        const reserva = miembros.sum({miembro => miembro.puntosDeEnergiaMagica()})
-        return reserva
-        puntosDeEnergiaMagica = reserva
+         return miembros.sum({miembro => miembro.puntosDeEnergiaMagica()})
     }
 
     method liderDelGremio(){                                // Segun el punto B3, el lider puede ser un mago o un gremio
@@ -30,27 +28,28 @@ class Gremio{
         return self.liderDelGremio().puntosDeEnergiaMagica()
     }
 
-    method desafiar(unOponente){
-         if(unOponente.puedeVencerlo(self)){
-            const puntos = unOponente.puntosPerdidos()
-            unOponente.disminuirPuntos(puntos)
-            self.aumentarPuntos(puntos)
+    method desafiar(unOponente){                            // El oponente es: o un mago, o un gremio
+         if(self.puedeVencerlo(unOponente)){
+            const puntosAGanar = unOponente.puntosPerdidos()
+            unOponente.disminuirPuntos()
+            self.aumentarPuntos(puntosAGanar)
          }
     }
 
-    method puedeVencerlo(unOponente){           // En este metodo, suponemos un gremio
-        return unOponente.poderTotal() > self.resistenciaMagica() + self.resistenciaDelLider()*2
+    method puedeVencerlo(unOponente){           // El oponente puede ser un gremio o un mago
+        return self.poderTotal() > unOponente.resistenciaMagica() + self.resistenciaDelLider()
     }
 
-    method disminuirPuntos(puntos){
-        puntosDeEnergiaMagica -=puntos
+    method disminuirPuntos(puntos){                         // Cuando un gremio pierde, cada miembro pierde sus puntos correspondientes
+        miembros.forEach({miembro => miembro.disminuirPuntos(miembro.puntosPerdidos())})
     }
 
-    method aumentarPuntos(puntos){
-        puntosDeEnergiaMagica += puntos
+    method aumentarPuntos(puntos){                      // "Los puntos de energía mágica obtenidos van a la reserva del lider del gremio"
+        self.liderDelGremio().aumentarPuntos(puntos)
     }
 
-    method puntosPerdidos(){                        // Cuando un gremio es derrotado, la cantidad de puntos que pierde equivale a la cantidad de puntos perdido por cada miembro
-        return miembros.sum({mago => mago.puntosPerdidos()})
+    method puntosPerdidos(){
+        return miembros.sum({miembro => miembro.puntosPerdidos()})
     }
+
 }
