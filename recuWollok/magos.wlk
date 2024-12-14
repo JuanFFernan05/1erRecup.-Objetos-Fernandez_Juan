@@ -1,3 +1,7 @@
+import gremios.* 
+import objetos.*
+import noSePuedeCrearUnGremioException.*
+
 
 class Mago{
     var objetosMagicos = #{}
@@ -54,13 +58,29 @@ class Mago{
     method disminuirPuntos(puntos){
         puntosDeEnergiaMagica -= puntos
     }
+
+    // Suponemos que un mago es responsable de crear un gremio
+
+    method crearGremio(algunosMiembros){
+        if(self.suficienteParaCrearUnGremio(algunosMiembros)){
+           const gremio = new Gremio(miembros = algunosMiembros, puntosDeEnergiaMagica = 0)         
+        }else{
+            throw new NoSePuedeCrearUnGremioException(message = "No hay suficientes miembros para crear un gremio")
+        }
+    }
+
+    method suficienteParaCrearUnGremio(algunosMagos){
+        return algunosMagos.size() >= 2
+    }
     
 }
 
 
+
+
 object inmortal{
 
-    method esVencido(unMago, otroMago){
+    method esVencido(unMago, oponente){
         return false
     }
 
@@ -71,8 +91,8 @@ object inmortal{
 
 object aprendiz{
 
-    method esVencido(unMago, otroMago){
-        return unMago.resistenciaMagica() < otroMago.poderTotal()
+    method esVencido(unMago, oponente){
+        return unMago.resistenciaMagica() < oponente.poderTotal()
     }
 
     method puntosAPerder(unMago){
@@ -83,8 +103,8 @@ object aprendiz{
 
 object veterano{
 
-    method esVencido(unMago, otroMago){
-        return otroMago.poderTotal()*1.5 >= unMago.resistenciaMagica() 
+    method esVencido(unMago, oponente){
+        return oponente.poderTotal()*1.5 >= unMago.resistenciaMagica() 
     }
 
     method puntosAPerder(unMago){

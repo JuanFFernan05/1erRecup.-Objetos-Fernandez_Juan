@@ -1,0 +1,1 @@
+class NoSePuedeCrearUnGremioException inherits Exception{}

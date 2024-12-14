@@ -1,3 +1,4 @@
+import magos.*
 
 class ObjetoConBaseDePoder{
     var baseDePoder
