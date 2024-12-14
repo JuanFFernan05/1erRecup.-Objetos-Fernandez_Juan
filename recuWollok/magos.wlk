@@ -56,7 +56,7 @@ class Mago{
     }
 
     method aumentarPuntos(puntos){
-        puntosDeEnergiaMagica +=puntos
+        puntosDeEnergiaMagica += puntos
     }
 
     method disminuirPuntos(puntos){

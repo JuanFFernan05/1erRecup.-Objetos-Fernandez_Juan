@@ -9,7 +9,7 @@ class Gremio{
     }
 
     method reservaDeEnergiaMagica(){
-         return miembros.sum({miembro => miembro.puntosDeEnergiaMagica()})
+        return miembros.sum({miembro => miembro.puntosDeEnergiaMagica()})
     }
 
     method liderDelGremio(){                                // Segun el punto B3, el lider puede ser un mago o un gremio
@@ -28,17 +28,18 @@ class Gremio{
         return self.liderDelGremio().puntosDeEnergiaMagica()
     }
 
-    method desafiar(unOponente){                            // El oponente es: o un mago, o un gremio
+    method desafiar(unOponente){                            
          if(self.puedeVencerlo(unOponente)){
-            const puntosAGanar = unOponente.puntosPerdidos()
-            unOponente.disminuirPuntos()
-            self.aumentarPuntos(puntosAGanar)
+            const puntos = unOponente.puntosPerdidos()
+            unOponente.disminuirPuntos(puntos)              // Este parámetro es necesario por si el oponente es un mago
+            self.aumentarPuntos(puntos)
          }
     }
 
-    method puedeVencerlo(unOponente){           // Aclaración: ya que no se indica como un gremio puede vencer a un mago, asumo que es la misma condición que se indica de como un gremio vence a otro gremio.
+    method puedeVencerlo(unOponente){                          // Aclaración: ya que no se indica como un gremio puede vencer a un mago, asumo que la condición es la misma que se realiza para confirmar si un gremio puede vencer a un gremio
         return self.poderTotal() > unOponente.resistenciaMagica() + self.resistenciaDelLider()
     }
+
 
     method disminuirPuntos(){                         // Cuando un gremio pierde, cada miembro pierde sus puntos correspondientes
         miembros.forEach({miembro => miembro.disminuirPuntos(miembro.puntosPerdidos())})

@@ -59,6 +59,7 @@ class Amuleto{
 }
 
 object ojota{
+    
     method poder(unMago){
         return 10*(unMago.nombre().length())
     }
