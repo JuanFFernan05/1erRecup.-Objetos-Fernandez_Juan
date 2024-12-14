@@ -67,6 +67,9 @@ class Mago{
         return 0
     }
 
+
+
+
     // Suponemos que un mago es responsable de crear un gremio
 
     method crearGremio(algunosMiembros){
@@ -77,8 +80,8 @@ class Mago{
         }
     }
 
-    method suficienteParaCrearUnGremio(algunosMagos){
-        return algunosMagos.size() >= 2
+    method suficienteParaCrearUnGremio(algunosMiembros){
+        return algunosMiembros.size() >= 2
     }
     
 }

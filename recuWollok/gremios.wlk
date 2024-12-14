@@ -2,7 +2,7 @@ import magos.*
 
 class Gremio{
     var miembros = #{}                  // Gremios y/o magos
-    
+
 
     method poderTotal(){
         return miembros.sum({miembro => miembro.poderTotal()})
@@ -36,15 +36,15 @@ class Gremio{
          }
     }
 
-    method puedeVencerlo(unOponente){           // El oponente puede ser un gremio o un mago
+    method puedeVencerlo(unOponente){           // Aclaración: ya que no se indica como un gremio puede vencer a un mago, asumo que es la misma condición que se indica de como un gremio vence a otro gremio.
         return self.poderTotal() > unOponente.resistenciaMagica() + self.resistenciaDelLider()
     }
 
-    method disminuirPuntos(puntos){                         // Cuando un gremio pierde, cada miembro pierde sus puntos correspondientes
+    method disminuirPuntos(){                         // Cuando un gremio pierde, cada miembro pierde sus puntos correspondientes
         miembros.forEach({miembro => miembro.disminuirPuntos(miembro.puntosPerdidos())})
     }
 
-    method aumentarPuntos(puntos){                      // "Los puntos de energía mágica obtenidos van a la reserva del lider del gremio"
+    method aumentarPuntos(puntos){              
         self.liderDelGremio().aumentarPuntos(puntos)
     }
 
